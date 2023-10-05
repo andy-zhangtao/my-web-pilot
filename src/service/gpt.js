@@ -14,7 +14,7 @@ export async function getOpenAIResponse(query, prompt) {
   // ];
 
   let content = util.format(
-    'Please understand the following content: "%s". Now answer the question: "%s". If you meet any problem, must reply "NO_ANSWER"',
+    'Please understand the following content: "%s". Now use Chinese(as far as possible) answer the question: "%s". If you meet any problem, must reply "NO_ANSWER"',
     prompt,
     query
   );
@@ -30,6 +30,7 @@ export async function getOpenAIResponse(query, prompt) {
         { role: "user", content: content },
       ],
       model: "gpt-3.5-turbo",
+      max_tokens: 2000,
     });
 
     console.log(chatCompletion.choices);

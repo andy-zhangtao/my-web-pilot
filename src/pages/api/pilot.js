@@ -22,7 +22,7 @@ export default async function handler(req, res) {
 
   let urls = [];
   try {
-    urls = await search(q, _engine, 2);
+    urls = await search(q, _engine, 4);
     Info("handler urls: " + urls);
   } catch (error) {
     Error(error);
@@ -37,6 +37,11 @@ export default async function handler(req, res) {
       Info("Scrap data: " + body_data);
       const response = await getOpenAIResponse(q, body_data);
       Info("handler response: " + response);
+      //   if response contains "NO_ANSWER", then it means the response is not valid, so we should use the next url
+      if (response.contains("NO_ANSWER")) {
+        continue;
+      }
+
       return res.status(200).json({ response });
     } catch (error) {
       Error(error);
