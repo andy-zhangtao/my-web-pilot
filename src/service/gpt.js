@@ -1,27 +1,40 @@
 const OpenAIApi = require("openai");
 const { Info, Error } = require("../utils/log"); // 路径应该指向 logger.js 文件的实际位置
+const util = require("util");
 
-export async function getOpenAIResponse(prompt) {
+export async function getOpenAIResponse(query, prompt) {
   // get api key from env
   const openai = new OpenAIApi({
     apiKey: process.env.OPENAI_API_KEY,
   });
 
-  const messages = [
-    { role: "system", content: "You are a helpful assistant." },
-    { role: "user", content: "Who won the world series in 2020?" },
-  ];
+  // const messages = [
+  //   { role: "system", content: "You are a helpful assistant." },
+  //   { role: "user", content: "Who won the world series in 2020?" },
+  // ];
+
+  let content = util.format(
+    'Please understand the following content: "%s". Now answer the question: "%s"',
+    prompt,
+    query
+  );
 
   try {
-    Info("openai: === ", openai);
     const chatCompletion = await openai.chat.completions.create({
-      messages: [{ role: "user", content: "Say this is a test" }],
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are a helpful assistant. please answer the question base on the provider content",
+        },
+        { role: "user", content: content },
+      ],
       model: "gpt-3.5-turbo",
     });
 
     console.log(chatCompletion.choices);
-    Info("response: " + response);
-    return response.choices[0].message.content;
+    Info("response: " + chatCompletion);
+    return chatCompletion.choices[0].message.content;
   } catch (error) {
     Error(error);
     throw new Error(error);

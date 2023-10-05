@@ -15,7 +15,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const response = await getOpenAIResponse(prompt);
+    const response = await getOpenAIResponse(q, prompt);
     Info("handler response: " + response);
     return res.status(200).json({ response });
   } catch (error) {
