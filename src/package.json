@@ -1,0 +1,23 @@
+{
+  "name": "my-web-pilot",
+  "version": "1.0.0",
+  "description": "Use puppeteer scraping the specify url body content, and invoke gpt for answer.",
+  "main": "index.js",
+  "author": "andy zhang",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev -H 0.0.0.0",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "google-search-scraper": "^0.1.0",
+    "next": "^13.5.3",
+    "puppeteer": "^21.3.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "search-engine-tool": "^1.0.4",
+    "winston": "^3.10.0"
+  }
+}
