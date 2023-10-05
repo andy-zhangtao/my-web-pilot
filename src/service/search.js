@@ -4,7 +4,7 @@ const { Info, Error } = require("../utils/log"); // 路径应该指向 logger.js
 export async function search(q, engine, limit) {
   try {
     var urls = [];
-    Info("q: " + q);
+    Info("[search] q: " + q);
     const results = await searchEngineTool(q, engine);
     results.forEach((result) => {
       if (urls.length <= limit) {
@@ -14,7 +14,7 @@ export async function search(q, engine, limit) {
       }
     });
 
-    Info("urls: " + urls);
+    Info("[search] urls: " + urls);
     return Promise.resolve(urls); // 返回 Promise 对象
   } catch (error) {
     Error(error);

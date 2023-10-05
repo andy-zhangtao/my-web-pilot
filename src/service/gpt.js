@@ -14,7 +14,7 @@ export async function getOpenAIResponse(query, prompt) {
   // ];
 
   let content = util.format(
-    'Please understand the following content: "%s". Now answer the question: "%s"',
+    'Please understand the following content: "%s". Now answer the question: "%s". If you meet any problem, must reply "NO_ANSWER"',
     prompt,
     query
   );

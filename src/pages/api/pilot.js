@@ -10,15 +10,19 @@ export default async function handler(req, res) {
 
   Info("Request body: " + JSON.stringify(req.body));
 
-  const { q } = req.body;
+  const { q, engine } = req.body;
   if (!q) {
     return res.status(400).json({ error: "q is required" }); // Bad Request
   }
 
-  const engine = "bing";
+  let _engine = "bing";
+  if (engine) {
+    _engine = engine;
+  }
 
+  let urls = [];
   try {
-    const urls = await search(q, engine, 2);
+    urls = await search(q, _engine, 2);
     Info("handler urls: " + urls);
   } catch (error) {
     Error(error);
