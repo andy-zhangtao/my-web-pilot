@@ -31,18 +31,24 @@ export default async function handler(req, res) {
 
   // get the data from urls one by one, if the data can not scrap, then use the next url
   for (let i = 0; i < urls.length; i++) {
+    let url = urls[i];
+    // if url start with 'https://www.zhihu.com', then we should use the next url
+    if (url.includes("https://www.zhihu.com")) {
+      continue; // 使用下一个 URL
+    }
+
     try {
-      const data = await capture(urls[i]);
+      const data = await capture(url);
       const body_data = scrap(data);
       Info("Scrap data: " + body_data);
       const response = await getOpenAIResponse(q, body_data);
       Info("handler response: " + response);
       //   if response contains "NO_ANSWER", then it means the response is not valid, so we should use the next url
-      if (response.contains("NO_ANSWER")) {
+      if (response.includes("NO_ANSWER")) {
         continue;
       }
 
-      return res.status(200).json({ response });
+      return res.status(200).json({ response, url });
     } catch (error) {
       Error(error);
       continue;

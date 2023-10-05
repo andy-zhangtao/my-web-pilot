@@ -14,7 +14,7 @@ export async function getOpenAIResponse(query, prompt) {
   // ];
 
   let content = util.format(
-    'Please understand the following content: "%s". Now use Chinese(as far as possible) answer the question: "%s". If you meet any problem, must reply "NO_ANSWER"',
+    'Please understand the following content: "%s". Now use Chinese(as far as possible) answer the question: "%s". ',
     prompt,
     query
   );
@@ -25,7 +25,7 @@ export async function getOpenAIResponse(query, prompt) {
         {
           role: "system",
           content:
-            "You are a helpful assistant. please answer the question base on the provider content",
+            "You are a helpful assistant. please answer the question base on the provider content. If you meet any problem or can not answer this question, must reply 'NO_ANSWER'. When you answer this question, please output your think one step by step",
         },
         { role: "user", content: content },
       ],
