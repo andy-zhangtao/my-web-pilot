@@ -29,7 +29,7 @@ export async function getOpenAIResponse(query, prompt) {
         },
         { role: "user", content: content },
       ],
-      model: "gpt-3.5-turbo",
+      model: "gpt-3.5-turbo-16k",
       max_tokens: 2000,
     });
 
