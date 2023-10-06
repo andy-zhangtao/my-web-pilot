@@ -22,6 +22,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile.run --tag vikings/my-web-pilot:run-$(date +%s)
+    -
+        name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          file: dockerfile.run
+          tags: vikings/my-web-pilot:run-$(date +%s)
     
