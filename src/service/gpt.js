@@ -13,11 +13,11 @@ export async function getOpenAIResponse(query, prompt) {
   //   { role: "user", content: "Who won the world series in 2020?" },
   // ];
 
-  let content = util.format(
-    'Please understand the following content: "%s". Now use Chinese(as far as possible) answer the question: "%s". ',
-    prompt,
-    query
-  );
+  // let content = util.format(
+  //   'Please understand the following content: "%s". Now use Chinese(as far as possible) answer the question: "%s". ',
+  //   prompt,
+  //   query
+  // );
 
   try {
     const chatCompletion = await openai.chat.completions.create({
@@ -27,7 +27,8 @@ export async function getOpenAIResponse(query, prompt) {
           content:
             "You are a helpful assistant. please answer the question base on the provider content. If you meet any problem or can not answer this question, must reply 'NO_ANSWER'. When you answer this question, please output your think one step by step",
         },
-        { role: "user", content: content },
+        { role: "user", content: prompt },
+        { role: "user", content: query },
       ],
       model: "gpt-3.5-turbo-16k",
       max_tokens: 2000,
