@@ -6,7 +6,9 @@ function googleSearchEngine(key, engine_id, q) {
   return new Promise((resolve, reject) => {
     var req = unirest(
       "GET",
-      `https://www.googleapis.com/customsearch/v1?key=${key}&cx=${engine_id}&q=${q}`
+      `https://www.googleapis.com/customsearch/v1?key=${key}&cx=${engine_id}&q=${encodeURIComponent(
+        q
+      )}`
     ).end(function (res) {
       if (res.error) {
         reject(new Error(res.error));
@@ -17,7 +19,11 @@ function googleSearchEngine(key, engine_id, q) {
           body.queries.request &&
           body.queries.request[0].count > 0
         ) {
-          const links = body.items.map((item) => item.link);
+          let links = [];
+          body.items.map((item) => {
+            Info(item.link);
+            links.push(item.link);
+          });
           resolve(links);
         } else {
           resolve([]);
@@ -37,16 +43,16 @@ export async function search(q, engine, limit) {
       process.env.GOOGLE_ENGINE_ID,
       q
     );
-    results.forEach((result) => {
-      if (urls.length <= limit) {
-        urls.push(result.href);
-      } else {
-        return;
-      }
-    });
+    // results.forEach((result) => {
+    //   if (urls.length <= limit) {
+    //     urls.push(result.href);
+    //   } else {
+    //     return;
+    //   }
+    // });
 
-    Info("[search] urls: " + urls);
-    return Promise.resolve(urls); // 返回 Promise 对象
+    // Info("[search] urls: " + urls);
+    return Promise.resolve(results); // 返回 Promise 对象
   } catch (error) {
     Error(error);
     throw new Error(error.Error); // 抛出异常
