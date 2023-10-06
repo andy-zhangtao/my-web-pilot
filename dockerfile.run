@@ -1,4 +1,4 @@
 FROM vikings/my-web-pilot:base-image
-COPY src /my-web-pilot
-WORKDIR /my-web-pilot
+COPY src /home/pilot/my-web-pilot
+WORKDIR /home/pilot/my-web-pilot
 RUN yarn install
