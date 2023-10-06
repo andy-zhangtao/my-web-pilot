@@ -29,5 +29,5 @@ jobs:
           context: .
           push: true
           file: dockerfile.run
-          tags: vikings/my-web-pilot:run-$(date +%s)
+          tags: vikings/my-web-pilot:run-${{ steps.get-branch-name.outputs.BRANCH_NAME }}-${{ steps.get-timestamp.outputs.TIMESTAMP }}
     
