@@ -21,12 +21,20 @@ export default async function handler(req, res) {
   }
 
   let urls = [];
-  try {
-    urls = await search(q, _engine, 4);
-    Info("handler urls: " + urls);
-  } catch (error) {
-    Error(error);
-    return res.status(500).json({ error: "Internal Server Error" }); // Internal Server Error
+  const retry = 5;
+  for (let i = 0; i < retry; i++) {
+    try {
+      urls = await search(q, _engine, 4);
+      if (urls.length == 0) {
+        continue;
+      }
+
+      Info("handler urls: " + urls);
+      break;
+    } catch (error) {
+      Error(error);
+      return res.status(500).json({ error: "Internal Server Error" }); // Internal Server Error
+    }
   }
 
   // get the data from urls one by one, if the data can not scrap, then use the next url
@@ -54,4 +62,7 @@ export default async function handler(req, res) {
       continue;
     }
   }
+  const response = "没有检索到任何有用的资料";
+  const url = "";
+  return res.status(200).json({ response, url });
 }
