@@ -1,6 +1,6 @@
 const { Info, Error } = require("../../utils/log");
 const { search } = require("../../service/search");
-import { capture, scrap } from "../../service/scraping";
+import { capture, scrap, source_code } from "../../service/scraping";
 const { getOpenAIResponse } = require("../../service/gpt");
 
 export default async function handler(req, res) {
@@ -41,12 +41,14 @@ export default async function handler(req, res) {
   for (let i = 0; i < urls.length; i++) {
     let url = urls[i];
     // if url start with 'https://www.zhihu.com', then we should use the next url
-    if (url.includes("https://www.zhihu.com")) {
-      continue; // 使用下一个 URL
-    }
+    // if (url.includes("https://www.zhihu.com")) {
+    //   continue; // 使用下一个 URL
+    // }
 
     try {
-      const data = await capture(url);
+      // const data = await capture(url);
+      const data = await source_code(url);
+      Info("-=-=-=-=");
       const body_data = scrap(data);
       Info("Scrap data: " + body_data);
       const response = await getOpenAIResponse(q, body_data);
@@ -58,7 +60,7 @@ export default async function handler(req, res) {
 
       return res.status(200).json({ response, url });
     } catch (error) {
-      Error(error);
+      // Error("-=-=-=", error.Error);
       continue;
     }
   }
